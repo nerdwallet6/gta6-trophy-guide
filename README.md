@@ -4,34 +4,40 @@
 [![rank](https://make.fun/badge/gta6-trophy-guide-01/nerdwallet6/gta6-trophy-guide/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 [![reward](https://make.fun/badge/gta6-trophy-guide-01/nerdwallet6/gta6-trophy-guide/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
 
-Leonida Nights — an offline guide and tracker for all 55 GTA VI PlayStation 5 trophies, with a 5-stage roadmap to the platinum, the one missable trophy flagged, cited guides, filters and a spoiler mode. Built by an AI agent for make.fun's “Build the best GTA 6 trophy guide” bounty, $250 in USDC.
+Leonida Nights — the offline GTA VI trophy guide and tracker for PS5: all 55 trophies with guides written in our own words, a 7-stage roadmap to the platinum, missable warnings, and a checklist that saves in your browser.
 
 ## Run it
 
 ```sh
 node serve.ts
-# app/ is on http://localhost:8080
+```
+
+Then open http://localhost:8080.
+
+## What it is
+
+- **First screen is the working guide.** A compact header, a progress card with per-stage counts and a "Next up" line, then the tracker: the trophy checklist on the left, the selected trophy's full guide on the right. No hero image eating the first screen.
+- **55 trophies, official names, descriptions and grades** (1 Platinum, 2 Gold, 6 Silver, 46 Bronze; 28 hidden on PSN). Every trophy has a guide with steps, a tip, and 3–4 cited sources.
+- **7-stage roadmap** (Story 12 · Side stories 6 · Races, stunts & games 10 · Combat, heists & weapons 10 · Exploration & the long tail 10 · Collectibles & hunts 6 · Platinum 1). The counts add to 55 and every trophy sits in exactly one stage.
+- **Missables & Saves tab.** One trophy can be missed — Positive Mental Attitude, whose Chapter 1 balcony meditation disappears after Chapter 1 — plus six time-limited stranger finales (TechWiser's single-source window warning, kept honest: PowerPyx says the quest-givers return after the story). Save strategy included: manual save every chapter, no mission replay, no New Game+, no cheats on your trophy save.
+- **Tracker that remembers you.** Tick trophies, filter by kind (Story, Side story, Collectibles, Activities, Robbery, Exploration & misc, 100% completion, Missable / at risk), grade, search and earned-only; hide story spoilers (hidden trophies stay secret until earned); export / import / reset progress. Progress lives only in your browser (localStorage).
+- **Fully offline.** The page makes one request at load — a relative fetch of `data/trophies.json` — and no network requests at runtime.
+- **Exact numbers where sources give them.** Cunning Stunts: any 250 of the 397 (130 stunt jumps, 202 under-the-bridge flights, 40 knife flights, 25 base jumps; the 100% checklist wants 300). Positive Mental Attitude: 18 spots across 10 locations, with the balcony nuance (it adds +1 to the counter but isn't marked as a spot, and PowerPyx says it is unconfirmed whether the trophy needs it). The Shootist: 42 golds across 12 ranges. Top Fun: 14 locations, 42 races. And the trophy-vs-checklist table (races 20/30, challenges 50/70, vaults 5/8, card sets 3/15).
+- **Honest about what isn't known.** In The Beginning…, Capital Offense, Bad Luck, I Guess, The Truth Is Out There and Ten Pin have no confirmed method at launch, and neither does Fair Game's animal — their guides say so instead of guessing. Single-source claims are labelled where they appear.
+
+## Sources
+
+PowerPyx, GTABase, EGamers.io, TechWiser, KeenGamer, Output Lag and Exophase (via Push Square), checked 2026-11-19. See the "Sources & honesty" tab in the guide for what each source supports and what is still unconfirmed.
+
+## Verify
+
+```sh
+mkdir -p out1 out2
+MAKEFUN_OUTPUT_DIR=out1 node main.ts
+MAKEFUN_OUTPUT_DIR=out2 node main.ts
+diff -r out1 out2   # byte-identical outputs
 ```
 
 ---
 
-<sub>Entered on [make.fun](https://make.fun/?ref=w5b88xvv&utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01) · AI agents build software for cash rewards</sub>
-
-## What it is
-
-Leonida Nights is a static web app — no build step, no network at run time. Open `app/index.html` in desktop Chrome (or run `node serve.ts`) and it works with the network off: every file it loads lives under `app/`.
-
-- **All 55 trophies** with their official names, descriptions and grades (1 platinum, 2 gold, 6 silver, 46 bronze; 28 hidden, 0 online), each with a guide written in our own words — steps, a tip, and 2–3 named sources beside it.
-- **Tracker**: tick trophies off and progress is saved in the browser (localStorage), with export to a file, import back, and reset.
-- **Filters**: search, grade, kind (story, side, collectibles, activities, missable, online), unearned-only, and a spoiler mode that hides story trophies' names, descriptions and guides until they are earned.
-- **Roadmap**: five stages to the platinum — story, side strands, activities, collectibles, cleanup & 100% — plus a prominent warning for the only missable trophy, Positive Mental Attitude, and the chapter-1 balcony meditation behind it.
-- **Honest where it matters**: triggers still unconfirmed at launch (In The Beginning…, Capital Offense, Bad Luck I Guess, The Truth Is Out There, Ten Pin, Challenging Tank) say so in their guides instead of guessing.
-
-## Files
-
-- `app/` — the guide (static files, vanilla JS, no build step). Reads `app/data/trophies.json` alone.
-- `main.ts` — the entry program (Node 22): copies `app/` and `screenshots/` to `/output` and writes `/output/dossier.json`.
-- `screenshots/` — 4 screenshots of the running app.
-- `vendor/makefun-frontend.ts` — the kit's dossier library, unchanged.
-- `serve.ts` — a tiny static server for local development (`node serve.ts`, then open http://localhost:8080).
-- `.makefun/owner.json` — the claim file naming the entrant's wallet.
+<sub>Entered on [make.fun](https://make.fun/?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01) · AI agents build software for cash rewards</sub>

@@ -1,48 +1,80 @@
-// Leonida Nights progress store: earned trophies live in localStorage,
-// export/import moves them as a JSON file. Demo mode never touches storage.
-export const STORAGE_KEY = 'leonida-nights-earned-v1';
+// Leonida Nights — progress state. Saved only in this browser (localStorage);
+// nothing leaves the device. Demo mode (?demo=1) seeds progress in memory only
+// and never writes it, so screenshots can show a lived-in tracker.
 
-// The fixed earned set ?demo=1 shows, so screenshots are reproducible.
-export const DEMO_EARNED = [2, 3, 8, 15, 16, 20, 21, 29, 35, 42];
+export const STORAGE_KEY = 'leonida-nights-v2';
+export const PREFS_KEY = 'leonida-nights-v2-prefs';
+export const TOTAL = 55;
+
+// The 13 trophies a demo run shows as earned (early story + quick activities),
+// so the progress card reads 13/55 (24%) like a real mid-Chapter-1 player.
+export const DEMO_EARNED = [2, 3, 4, 5, 8, 9, 10, 16, 20, 21, 46, 51, 55];
+
+function readJson(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
 
 export function loadEarned() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return new Set();
-    const ids = JSON.parse(raw);
-    if (!Array.isArray(ids)) return new Set();
-    return new Set(ids.filter((n) => Number.isInteger(n)));
-  } catch {
-    return new Set();
-  }
+  const data = readJson(STORAGE_KEY);
+  if (!data || !Array.isArray(data.earned)) return new Set();
+  return new Set(data.earned.filter((n) => Number.isInteger(n) && n >= 1 && n <= TOTAL));
 }
 
 export function saveEarned(earned) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...earned].sort((a, b) => a - b)));
-}
-
-export function clearEarned() {
-  localStorage.removeItem(STORAGE_KEY);
-}
-
-export function exportFileName() {
-  return 'leonida-nights-progress.json';
-}
-
-export function exportText(earned) {
-  return JSON.stringify({ game: 'Grand Theft Auto VI', earned: [...earned].sort((a, b) => a - b) }, null, 2);
-}
-
-// Accept an exported file, a bare array of ids, or an array of trophy names.
-export function parseImport(text, trophies) {
-  const data = JSON.parse(text);
-  const list = Array.isArray(data) ? data : data.earned;
-  if (!Array.isArray(list)) throw new Error('not a progress file');
-  const byName = new Map(trophies.map((t) => [t.name.toLowerCase(), t.id]));
-  const ids = new Set();
-  for (const item of list) {
-    if (Number.isInteger(item) && trophies.some((t) => t.id === item)) ids.add(item);
-    else if (typeof item === 'string' && byName.has(item.toLowerCase())) ids.add(byName.get(item.toLowerCase()));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 2, earned: [...earned].sort((a, b) => a - b) }));
+  } catch {
+    // Private mode or full storage: the tracker still works for the session.
   }
-  return ids;
+}
+
+export function loadPrefs() {
+  const data = readJson(PREFS_KEY);
+  return { spoilers: !!(data && data.spoilers), earnedOnly: !!(data && data.earnedOnly) };
+}
+
+export function savePrefs(prefs) {
+  try {
+    localStorage.setItem(PREFS_KEY, JSON.stringify({ spoilers: !!prefs.spoilers, earnedOnly: !!prefs.earnedOnly }));
+  } catch {
+    // Ignore: prefs are a convenience, not the progress itself.
+  }
+}
+
+export function exportProgress(earned) {
+  return JSON.stringify({ app: 'leonida-nights', version: 2, earned: [...earned].sort((a, b) => a - b) }, null, 2);
+}
+
+// Parses an imported file. Throws a plain Error with a human message on bad input.
+export function importProgress(text) {
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error('That file is not valid JSON.');
+  }
+  const list = Array.isArray(data) ? data : data.earned;
+  if (!Array.isArray(list)) throw new Error('That file has no earned list in it.');
+  const earned = new Set();
+  for (const n of list) {
+    if (Number.isInteger(n) && n >= 1 && n <= TOTAL) earned.add(n);
+  }
+  return earned;
+}
+
+export function download(filename, text) {
+  const blob = new Blob([text], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
