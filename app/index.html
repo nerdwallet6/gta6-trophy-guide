@@ -1,134 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Nights — GTA VI Trophy Guide &amp; Tracker</title>
-<meta name="description" content="The offline GTA VI trophy guide and tracker: all 55 trophies with guides in our own words, a 7-stage roadmap to the platinum, missable warnings, and a checklist that saves in your browser.">
+<title>Leonida Nights — GTA VI Trophy Guide</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
-  <div class="top-inner">
-    <div class="brand">
-      <p class="eyebrow">Grand Theft Auto VI &middot; PlayStation 5 &middot; Works offline</p>
-      <h1>Leonida Nights</h1>
-      <p class="tagline">Every one of the 55 trophies, with its official name, description and grade, a guide in our own words that cites its sources, a roadmap to the platinum, and a checklist that remembers you.</p>
-    </div>
-    <div class="chips" aria-label="Guide facts">
-      <span class="chip">55 trophies</span>
-      <span class="chip">1 platinum &middot; 2 gold &middot; 6 silver &middot; 46 bronze</span>
-      <span class="chip">28 hidden</span>
-      <span class="chip">~200 hours</span>
-      <span class="chip">No account &middot; no network</span>
-    </div>
+<header class="masthead">
+  <div class="masthead-title">
+    <h1>Leonida Nights</h1>
+    <p class="tagline">The complete GTA VI trophy guide — all 55 trophies, one road to Platinum.</p>
   </div>
+  <ul class="chips" aria-label="At a glance">
+    <li><strong>55</strong> trophies</li>
+    <li><strong>1</strong> Platinum · <strong>2</strong> Gold · <strong>6</strong> Silver · <strong>46</strong> Bronze</li>
+    <li><strong>28</strong> hidden</li>
+    <li><strong>~200 h</strong> to Platinum</li>
+    <li>Difficulty <strong>4/10</strong></li>
+    <li>All offline · single-player</li>
+  </ul>
 </header>
 
+<section class="progress-card" aria-label="Your progress">
+  <div class="progress-head">
+    <div>
+      <h2>Your progress</h2>
+      <p id="progressText">0 of 55 earned</p>
+    </div>
+    <div class="grade-counts" id="gradeCounts"></div>
+  </div>
+  <div class="bar" role="progressbar" aria-label="Trophies earned" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBar"><div class="fill" id="progressFill"></div></div>
+  <div class="next-up" id="nextUp"></div>
+</section>
+
+<nav class="tabs" aria-label="Guide sections">
+  <button type="button" class="tab active" data-tab="tracker">Tracker</button>
+  <button type="button" class="tab" data-tab="roadmap">Roadmap to Platinum</button>
+  <button type="button" class="tab" data-tab="missables">Missables &amp; Saves <span class="badge">7</span></button>
+  <button type="button" class="tab" data-tab="sources">Sources &amp; honesty</button>
+</nav>
+
 <main>
-  <section class="progress" aria-label="Your progress">
-    <div class="progress-main">
-      <p class="big"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
-      <p class="pct" id="pctLine">0% to the platinum</p>
-      <div class="bar" role="progressbar" aria-label="Progress to platinum" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBar"><span id="progressFill"></span></div>
-      <p class="grades" id="gradeLine">platinum 0/1 &middot; gold 0/2 &middot; silver 0/6 &middot; bronze 0/46</p>
-    </div>
-    <div class="progress-stages">
-      <p class="stages-label">Roadmap</p>
-      <p class="stage-counts" id="stageCounts"></p>
-      <p class="stages-note">Seven stages, in the order this guide recommends. Open the Roadmap tab for the full plan.</p>
-    </div>
-    <div class="nextup" id="nextUp" aria-label="Next up"></div>
-  </section>
-
-  <nav class="tabs" role="tablist" aria-label="Guide sections">
-    <button class="tab active" data-tab="tracker" role="tab" aria-selected="true">Tracker</button>
-    <button class="tab" data-tab="roadmap" role="tab" aria-selected="false">Roadmap to Platinum</button>
-    <button class="tab" data-tab="missables" role="tab" aria-selected="false">Missables &amp; Saves <span class="tab-badge">7</span></button>
-    <button class="tab" data-tab="sources" role="tab" aria-selected="false">Sources &amp; honesty</button>
-  </nav>
-
-  <section class="tab-panel active" id="panel-tracker" role="tabpanel" aria-label="Trophy tracker">
+  <section class="panel active" id="panel-tracker" aria-label="Trophy tracker">
     <div class="toolbar">
-      <label class="search-label">Search <input id="search" type="search" placeholder="Trophy name, mission, keyword…" autocomplete="off"></label>
-      <div class="pills" id="kindPills" role="group" aria-label="Filter by kind"></div>
-      <label class="grade-label">Grade
+      <label class="search">Search <input id="search" type="search" placeholder="Trophy or mission name…" autocomplete="off"></label>
+      <label>Grade
         <select id="gradeFilter">
-          <option value="">All grades</option>
+          <option value="all">All grades</option>
           <option value="platinum">Platinum</option>
           <option value="gold">Gold</option>
           <option value="silver">Silver</option>
           <option value="bronze">Bronze</option>
         </select>
       </label>
-      <label class="check"><input type="checkbox" id="spoilerToggle"> Hide story spoilers</label>
-      <label class="check"><input type="checkbox" id="earnedOnly"> Earned only</label>
-      <div class="actions">
-        <button id="exportBtn" type="button">Export progress</button>
-        <button id="importBtn" type="button">Import progress</button>
-        <input type="file" id="importFile" accept="application/json,.json" hidden>
-        <button id="resetBtn" type="button" class="danger">Reset</button>
-      </div>
+      <label>Kind
+        <select id="kindFilter">
+          <option value="all">All kinds</option>
+          <option value="Story">Story</option>
+          <option value="Side story">Side story</option>
+          <option value="Collectibles">Collectibles</option>
+          <option value="Activities">Activities</option>
+          <option value="Robbery">Robbery</option>
+          <option value="Exploration &amp; misc">Exploration &amp; misc</option>
+          <option value="100% completion">100% completion</option>
+          <option value="atrisk">Missable / at risk</option>
+        </select>
+      </label>
+      <label class="check"><input id="earnedOnly" type="checkbox"> Earned only</label>
+      <label class="check"><input id="spoilerToggle" type="checkbox"> Hide spoilers</label>
+      <span class="spacer"></span>
+      <button id="exportBtn" type="button">Export progress</button>
+      <label class="import">Import progress <input id="importFile" type="file" accept="application/json"></label>
+      <button id="resetBtn" type="button">Reset</button>
     </div>
-    <p class="status" id="statusLine"></p>
+    <p class="list-count" id="listCount"></p>
     <div class="tracker-grid">
-      <div class="list-col">
-        <h2>Trophy checklist</h2>
-        <ul class="trophy-list" id="trophyList"></ul>
-      </div>
-      <aside class="detail-col" id="detailPanel" aria-label="Selected trophy guide" aria-live="polite"></aside>
+      <div class="checklist" id="checklist" role="list" aria-label="Trophy checklist"></div>
+      <aside class="detail" id="detail" aria-label="Selected trophy guide" aria-live="polite"></aside>
     </div>
   </section>
 
-  <section class="tab-panel" id="panel-roadmap" role="tabpanel" aria-label="Roadmap to platinum">
-    <h2>Roadmap to Platinum</h2>
-    <p class="section-intro">Seven stages, in the order this guide recommends. The counts add up to all 55 trophies, and every trophy sits in exactly one stage. Roughly 200 hours in total (PowerPyx and GTABase): 60–80 hours of story, about 100 hours of checklist, about 10 hours of cleanup. One playthrough is enough, and everything is single-player.</p>
-    <div class="stages" id="stageList"></div>
+  <section class="panel" id="panel-roadmap" aria-label="Roadmap to Platinum">
+    <p class="panel-intro">Seven stages, 55 trophies, each in exactly one stage. Finish the story, start the strangers early, then grind the long tail — A Long Road is the capstone, not the start.</p>
+    <div class="stages" id="stageCards"></div>
   </section>
 
-  <section class="tab-panel" id="panel-missables" role="tabpanel" aria-label="Missables and saves">
-    <h2>Missables &amp; Saves</h2>
-    <div class="missable-banner" id="missableBanner"></div>
-    <h3>Time-limited — start early</h3>
-    <p class="section-intro">These six are <strong>not</strong> missable, but TechWiser reports their stranger chains have windows tied to story progress. PowerPyx, on the other hand, says every trophy quest-giver is still there after the story in free roam. Only TechWiser gives the warning, so treat it as a reason to start early — not as a confirmed lockout.</p>
-    <ul class="risk-list" id="riskList"></ul>
+  <section class="panel" id="panel-missables" aria-label="Missables and saves">
+    <p class="panel-intro">Only one trophy can be missed. Six more are time-limited. Everything else can be finished in free roam after the credits — but only if your saves are right.</p>
+    <div class="missable-card" id="missableCard"></div>
+    <h3>Time-limited — start early <span class="badge">6</span></h3>
+    <div class="risk-list" id="timeLimitedList"></div>
     <h3>Save strategy</h3>
     <ol class="save-list">
-      <li><strong>Manual save at the start of every chapter.</strong> There is no mission replay and no New Game+, so a chapter save is the only way back.</li>
-      <li><strong>Keep one untouched save before the final mission.</strong> It protects the whole run if anything goes wrong late.</li>
-      <li><strong>Keep your Chapter 1 save until Positive Mental Attitude pops.</strong> The balcony meditation is the one thing that can disappear.</li>
-      <li><strong>Never use cheats on your trophy save.</strong> GTABase and TechWiser both say cheats switch off trophies and saving; the only fix is a clean save.</li>
-      <li><strong>Watch the Irredeemable criminal profile.</strong> PowerPyx and GTABase both say it is permanent — check what it means before going on a rampage.</li>
+      <li><strong>Manual save at the start of every chapter.</strong> There is no mission replay and no New Game+, so a chapter-start save is your only way back.</li>
+      <li><strong>Keep one save from before the final mission.</strong> You cannot replay the finale.</li>
+      <li><strong>Do Lucia's balcony meditation in Chapter 1</strong> (the morning after Down to Earth) before you finish the chapter — see Positive Mental Attitude.</li>
+      <li><strong>Do not use cheats.</strong> Turning on a cheat switches off trophies, and you cannot save anymore once you have used one. All 61 cheats unlock only after the story anyway.</li>
+      <li><strong>Nothing on the 100% checklist is missable.</strong> GTABase and PowerPyx both say every checklist requirement can still be done in free roam after the credits.</li>
     </ol>
+    <p class="honest-note">The stranger-window warning is single-source: TechWiser says quest-givers may stop offering missions, while PowerPyx says quest-givers return after the story. Starting the strands early costs nothing and covers both readings.</p>
   </section>
 
-  <section class="tab-panel" id="panel-sources" role="tabpanel" aria-label="Sources and honesty">
-    <h2>Sources &amp; honesty</h2>
-    <p class="section-intro">Every trophy in this guide cites the sources its numbers and methods come from. The guide itself is written in our own words — the sources are the evidence, not the text.</p>
-    <h3>Sources used</h3>
-    <ul class="source-list">
-      <li><strong>PowerPyx</strong> — GTA 6 Trophy Guide &amp; Roadmap. The main roadmap source: story order, missable warning, 200-hour estimate, 42 shooting-range golds, 14 Top Fun locations, 40 race locations, 9 activity types.</li>
-      <li><strong>GTABase</strong> — GTA 6 Trophy Guide &amp; Achievements List, and the 100% Completion Guide. The numbers source: 250 of 397 stunts (130 jumps, 202 bridges, 40 knife flights, 25 base jumps), 39 gang operations, 9 gangs, 8 garages at ~$160,000, the 45/45/10 checklist split.</li>
-      <li><strong>EGamers.io</strong> — GTA 6 Trophy List, and the 100% Completion checklist guide. The cross-check source: trophy-vs-checklist table (stunts 250/300, races 20/30, challenges 50/70, vaults 5/8, card sets 3/15), the 27 visible / 28 hidden split.</li>
-      <li><strong>TechWiser</strong> — GTA 6 Missions. The stranger-chain source: chapter-by-chapter mission lists, character requirements, and the single-source warning that stranger chains have windows tied to story progress.</li>
-      <li><strong>KeenGamer</strong> — GTA 6 Trophy Guide &amp; Platinum Roadmap. The second opinion on the roadmap, the missable warning, and the 42 shooting-range golds.</li>
-      <li><strong>Output Lag</strong> — GTA 6 Trophy List. The visible-list cross-check: all 27 non-hidden trophies with grades, and the 200-of-277 vehicle figure for 100%.</li>
-      <li><strong>Exophase (via Push Square)</strong> — the PS5 trophy list the 28-hidden count comes from: 27 visible, 28 hidden, 1 Platinum, 2 Gold, 6 Silver, 46 Bronze.</li>
-    </ul>
-    <h3>What is confirmed, and what is not</h3>
+  <section class="panel" id="panel-sources" aria-label="Sources and honesty">
+    <p class="panel-intro">Every guide names its sources. Where the guides disagree or do not know yet, this page says so instead of guessing.</p>
+    <h3>Sources</h3>
+    <ul class="source-list" id="sourceList"></ul>
+    <h3>Honesty notes</h3>
     <ul class="honesty-list">
-      <li><strong>Confirmed by two or more sources:</strong> the 55 names, descriptions and grades; the 27 visible / 28 hidden split; the stunt breakdown (250 of 397); the 18 meditation spots; the 42 shooting-range golds; the 14 Top Fun locations; the trophy-vs-checklist numbers.</li>
-      <li><strong>Confirmed by one source only:</strong> the TechWiser warning about stranger-chain windows; the GTABase figures for Actions Speak Louder (500 profile actions) and Personal Best (max Strength for both characters); the stranger-count list for Strangers &amp; Freaks. Each is labelled where it appears.</li>
-      <li><strong>Unconfirmed at launch:</strong> In The Beginning…, Capital Offense, Bad Luck, I Guess, The Truth Is Out There and Ten Pin — PowerPyx marks all five as not yet known — plus which animal Fair Game wants. Their guides say so plainly instead of guessing.</li>
-      <li><strong>Still open:</strong> whether the Chapter 1 balcony meditation is actually required for Positive Mental Attitude. PowerPyx and GTABase both say it is unconfirmed. The safe play is to do it — PowerPyx's author did it and then earned the trophy.</li>
-      <li><strong>Checked 2026-11-19.</strong> GTA VI launched 2026-11-19; launch-era guides are early and may change as more people play. This guide will be updated when a method is confirmed.</li>
+      <li><strong>Confirmed:</strong> the 55 names, descriptions and grades match across PowerPyx, GTABase, EGamers.io, Push Square and Exophase. The 27 visible / 28 hidden split is the same everywhere.</li>
+      <li><strong>Single-source:</strong> the stranger time-limited warning comes from TechWiser alone. PowerPyx says quest-givers return after the story. This guide flags all six as time-limited and tells you why.</li>
+      <li><strong>Unconfirmed:</strong> In The Beginning…, Capital Offense, Bad Luck, I Guess, The Truth Is Out There and Ten Pin have no confirmed unlock method yet (PowerPyx marks them not yet known), and Fair Game's animal is not pinned down. Their guides say so plainly.</li>
+      <li><strong>Balcony nuance:</strong> the Chapter 1 balcony meditation adds +1 to the Positive Mental Attitude counter but is not marked as a spot. PowerPyx says it is unconfirmed whether it is required; its author did it and earned the trophy, so this guide tells you to do it.</li>
+      <li><strong>Counts that differ by source:</strong> challenges are 50 of 80 for the trophy (the 100% checklist wants 70 of 80); races are 20 of 40 (100% wants 30 of 40); card sets are 3 of 15 for the trophy (18 sets exist, 100% wants 15).</li>
+      <li><strong>Checked 18–19 Nov 2026.</strong> The game launched 19 Nov 2026 and launch-era guides are still being corrected. Re-check the Sources tab before you hunt anything marked unconfirmed.</li>
     </ul>
   </section>
-
-  <footer>
-    <p>Leonida Nights — an unofficial fan guide. Grand Theft Auto and GTA are trademarks of Take-Two Interactive; this guide is not affiliated with or endorsed by Rockstar Games. Trophy names and descriptions are the official list as reported at launch. Progress saves only in this browser (localStorage) — nothing leaves your device, and the guide makes no network requests at runtime.</p>
-  </footer>
 </main>
+
+<footer>
+  <p>Leonida Nights — the complete GTA VI trophy guide. Fully offline: this page makes no network requests except loading its own trophy list. Progress is saved on your device only.</p>
+</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>
